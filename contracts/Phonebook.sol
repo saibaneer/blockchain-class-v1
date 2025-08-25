@@ -21,6 +21,9 @@ contract Phonebook {
 
     // Add a contact
     function addContact(string memory _fName, string memory _lName, uint8 age, uint256 _startingBalance) external {
+        // add checks for empty strings in _fName, _lName
+        // add checks for invalid age. age > 0
+        // add checks for invalid _startingBalance
         bytes32 hashedContact = hashContact(_fName, _lName, age);
         contacts[hashedContact] = Contact(_fName, _lName, age, _startingBalance);
         ageToContact[age] = Contact(_fName, _lName, age, _startingBalance);
@@ -28,10 +31,13 @@ contract Phonebook {
 
     // Update a contact info
     function addBalance(bytes32 _hashedContact, uint256 _amount) external  {
+        require(_amount > 0, "Zero amount not allowed!");
         contacts[_hashedContact].bankBalance += _amount;
         ageToContact[contacts[_hashedContact].age].bankBalance += _amount;
     }
     function reduceBalance(bytes32 _hashedContact, uint256 _amount) external  {
+        // block zero amount
+        // block an attempt to reduce an amount greater than the user balance
         contacts[_hashedContact].bankBalance -= _amount;
         uint8 age = contacts[_hashedContact].age;
         ageToContact[age].bankBalance -= _amount;
