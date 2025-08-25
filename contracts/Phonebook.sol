@@ -11,8 +11,12 @@ contract Phonebook {
         uint256 bankBalance;
     }
 
-    // mapping(string => Contact) private stringToContact;
+    // hash -> data
+    // delete hash ->X ""
     mapping(bytes32 => Contact) private contacts;
+
+    // uint8 -> data
+    // delete uint8 ->X ""
     mapping(uint8 => Contact) private ageToContact;
 
     // Add a contact
@@ -45,7 +49,12 @@ contract Phonebook {
 
 
     // Delete a contact
-    function deleteContact() external {}
+    function deleteContact(string memory _fName, string memory _lName, uint8 age) external {
+        bytes32 contactHash = hashContact(_fName, _lName, age);
+        delete contacts[contactHash];
+        delete ageToContact[age];
+
+    }
 
     function hashContact(string memory _fName, string memory _lName, uint8 age) public pure returns(bytes32) {
         return keccak256(abi.encode(_fName, _lName, age));
@@ -53,5 +62,5 @@ contract Phonebook {
 }
 
 
-// 0x22a3480f3d671a29efe2d638b5c3220ed945089c205e243ccadd2817303c7b8e
+
 
