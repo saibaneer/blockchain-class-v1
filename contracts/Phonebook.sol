@@ -24,6 +24,10 @@ contract Phonebook {
         // add checks for empty strings in _fName, _lName
         // add checks for invalid age. age > 0
         // add checks for invalid _startingBalance
+        require(bytes(_fName).length > 0, "First name cannot be empty");
+        require(bytes(_lName).length > 0, "Last name cannot be empty");
+        require(age > 0, "Age must be greater than zero");
+        require(_startingBalance > 0, "Starting balance must be positive");
         bytes32 hashedContact = hashContact(_fName, _lName, age);
         contacts[hashedContact] = Contact(_fName, _lName, age, _startingBalance);
         ageToContact[age] = Contact(_fName, _lName, age, _startingBalance);
