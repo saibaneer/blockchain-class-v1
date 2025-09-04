@@ -41,7 +41,9 @@ contract Phonebook {
     }
     function reduceBalance(bytes32 _hashedContact, uint256 _amount) external  {
         // block zero amount
+        require(_amount <> 0, "Block zero amount")
         // block an attempt to reduce an amount greater than the user balance
+        require(_amount > bankbalance, "Reduction greater than user balance is not allowed")
         contacts[_hashedContact].bankBalance -= _amount;
         uint8 age = contacts[_hashedContact].age;
         ageToContact[age].bankBalance -= _amount;
